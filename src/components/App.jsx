@@ -1,4 +1,8 @@
 import { Component } from 'react';
+import { Statistics } from './Statistics/Statistics';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Section } from './Section/Section'
+
 export class App extends Component {
   state = {
     good: 0,
@@ -10,7 +14,7 @@ export class App extends Component {
     const { good, neutral, bad } = this.state;
     return good + neutral + bad; 
   };
-
+ 
   handleClick = type => {
     this.setState(prevState => ({
       ...prevState,
@@ -24,28 +28,12 @@ export class App extends Component {
     const options = ['good', 'neutral', 'bad'];
     return (
       <>
-        <div>
-        {options.map(option => (
-          <button key={option} onClick={() => this.handleClick(option)}>
-            {option.charAt(0).toUpperCase() + option.slice(1)}
-          </button>
-     ))}    
-        </div> 
-
-      <div>
-          <p>
-            Good: <span>{good}</span>
-          </p>
-          <p>
-            Neutral: <span>{neutral}</span>
-          </p>
-          <p>
-            Bad: <span>{bad}</span>
-          </p>
-          <p>
-            Total: <span>{total}</span>
-          </p>
-      </div>
+        <Section title="Please leave feedback">
+      <FeedbackOptions options={options} onLeaveFeedback={this.handleClick}/> 
+      </Section>
+      <Section title="Statistics">
+          <Statistics good={good} neutral={neutral} bad={bad} total={total} />
+        </Section>
     </>
   );
 };
